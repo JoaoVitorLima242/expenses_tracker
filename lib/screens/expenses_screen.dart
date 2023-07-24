@@ -12,6 +12,14 @@ class ExpensesScreen extends StatefulWidget {
 class _ExpenseScreen extends State<ExpensesScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Text('teste');
+    return const Scaffold(
+      body: Column(
+        children: [
+          Text('Add'),
+          Text('Dash'),
+          Text('expenses'),
+        ],
+      ),
+    );
   }
 }
