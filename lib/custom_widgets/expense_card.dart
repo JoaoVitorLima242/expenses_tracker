@@ -26,11 +26,11 @@ class ExpensesCard extends StatelessWidget {
                 const Spacer(),
                 Row(
                   children: [
-                    const Icon(Icons.access_alarm),
+                    Icon(categoryIcons[expense.category]),
                     const SizedBox(
                       width: 4,
                     ),
-                    Text(expense.date.toString())
+                    Text(expense.formattedDate)
                   ],
                 )
               ],
