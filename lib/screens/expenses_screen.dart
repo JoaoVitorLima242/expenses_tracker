@@ -12,9 +12,19 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpenseScreen extends State<ExpensesScreen> {
+  void onAddExpense() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: onAddExpense,
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           const Text('Dash'),
