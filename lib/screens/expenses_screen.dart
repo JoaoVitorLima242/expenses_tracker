@@ -12,7 +12,12 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpenseScreen extends State<ExpensesScreen> {
-  void onAddExpense() {}
+  void _openAddExpenseModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => const Text('Modal bottom sheet'),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class _ExpenseScreen extends State<ExpensesScreen> {
         title: const Text('Expenses Tracker'),
         actions: [
           IconButton(
-            onPressed: onAddExpense,
+            onPressed: _openAddExpenseModal,
             icon: const Icon(Icons.add),
           ),
         ],
