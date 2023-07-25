@@ -18,6 +18,7 @@ class _ExpenseScreen extends State<ExpensesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Expenses Tracker'),
         actions: [
           IconButton(
             onPressed: onAddExpense,
