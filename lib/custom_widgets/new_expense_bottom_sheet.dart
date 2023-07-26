@@ -25,6 +25,18 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
     print(_amountController.text);
   }
 
+  void _onSelectDate() {
+    final now = DateTime.now();
+    final firstTime = DateTime(now.year - 1, now.month, now.day);
+
+    showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: firstTime,
+      lastDate: now,
+    );
+  }
+
   void _onCancel() {
     Navigator.pop(context);
   }
@@ -43,14 +55,33 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
               label: Text('Title'),
             ),
           ),
-          TextField(
-            controller: _amountController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              prefixText: '\$ ',
-              label: Text('Amount'),
+          Row(children: [
+            Expanded(
+              child: TextField(
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  prefixText: '\$ ',
+                  label: Text('Amount'),
+                ),
+              ),
             ),
-          ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Select a date'),
+                  IconButton(
+                      onPressed: _onSelectDate,
+                      icon: const Icon(
+                        Icons.calendar_month,
+                      ))
+                ],
+              ),
+            )
+          ]),
           Row(
             children: [
               TextButton(onPressed: _onCancel, child: const Text('Cancel')),
