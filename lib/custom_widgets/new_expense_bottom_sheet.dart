@@ -25,7 +25,9 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
     print(_amountController.text);
   }
 
-  void _onCancel() {}
+  void _onCancel() {
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
