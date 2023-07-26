@@ -10,14 +10,16 @@ class NewExpensesBottomSheet extends StatefulWidget {
 }
 
 class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
-  var _enteredTitle = '';
+  final _titleController = TextEditingController();
 
-  void _saveTitleInput(String inputValue) {
-    _enteredTitle = inputValue;
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
   }
 
   void _onSaveExpense() {
-    print(_enteredTitle);
+    print(_titleController.text);
   }
 
   @override
@@ -28,7 +30,7 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
       child: Column(
         children: [
           TextField(
-            onChanged: _saveTitleInput,
+            controller: _titleController,
             maxLength: 50,
             decoration: const InputDecoration(
               label: Text('Title'),
