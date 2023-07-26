@@ -10,19 +10,38 @@ class NewExpensesBottomSheet extends StatefulWidget {
 }
 
 class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
+  var _enteredTitle = '';
+
+  void _saveTitleInput(String inputValue) {
+    _enteredTitle = inputValue;
+  }
+
+  void _onSaveExpense() {
+    print(_enteredTitle);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
-      child: const Column(
+      child: Column(
         children: [
           TextField(
+            onChanged: _saveTitleInput,
             maxLength: 50,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               label: Text('Title'),
             ),
           ),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: _onSaveExpense,
+                child: const Text('Save Expense'),
+              )
+            ],
+          )
         ],
       ),
     );
