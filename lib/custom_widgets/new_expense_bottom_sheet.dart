@@ -13,6 +13,7 @@ class NewExpensesBottomSheet extends StatefulWidget {
 class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  Category _selectedCategory = Category.leisure;
   DateTime? _selectedDate;
 
   @override
@@ -43,12 +44,31 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
     });
   }
 
+  void _onSelectCategory(Category? value) {
+    if (value == null) {
+      return;
+    }
+
+    setState(() {
+      _selectedCategory = value;
+    });
+  }
+
   void _onCancel() {
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final dropdownList = Category.values
+        .map(
+          (category) => DropdownMenuItem(
+            value: category,
+            child: Text(category.name.toUpperCase()),
+          ),
+        )
+        .toList();
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -92,6 +112,11 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
           ]),
           Row(
             children: [
+              DropdownButton(
+                items: dropdownList,
+                value: _selectedCategory,
+                onChanged: _onSelectCategory,
+              ),
               TextButton(onPressed: _onCancel, child: const Text('Cancel')),
               ElevatedButton(
                 onPressed: _onSaveExpense,
