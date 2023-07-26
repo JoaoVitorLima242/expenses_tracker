@@ -1,3 +1,4 @@
+import 'package:expenses_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpensesBottomSheet extends StatefulWidget {
@@ -12,6 +13,7 @@ class NewExpensesBottomSheet extends StatefulWidget {
 class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime? _selectedDate;
 
   @override
   void dispose() {
@@ -25,16 +27,20 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
     print(_amountController.text);
   }
 
-  void _onSelectDate() {
+  void _onSelectDate() async {
     final now = DateTime.now();
     final firstTime = DateTime(now.year - 1, now.month, now.day);
 
-    showDatePicker(
+    final pickedDate = await showDatePicker(
       context: context,
       initialDate: now,
       firstDate: firstTime,
       lastDate: now,
     );
+
+    setState(() {
+      _selectedDate = pickedDate;
+    });
   }
 
   void _onCancel() {
@@ -72,7 +78,9 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text('Select a date'),
+                  Text(_selectedDate == null
+                      ? 'Select a date'
+                      : dateFormatter.format(_selectedDate!)),
                   IconButton(
                       onPressed: _onSelectDate,
                       icon: const Icon(
