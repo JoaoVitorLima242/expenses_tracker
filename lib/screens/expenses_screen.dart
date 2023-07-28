@@ -19,6 +19,14 @@ class _ExpenseScreen extends State<ExpensesScreen> {
     setState(() {
       _registeredExpenses.add(expense);
     });
+
+    Navigator.pop(context);
+  }
+
+  void _onRemoveExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
   }
 
   void _openAddExpenseModal() {
@@ -46,8 +54,11 @@ class _ExpenseScreen extends State<ExpensesScreen> {
         children: [
           const Text('Dash'),
           Expanded(
-            child: ExpensesList(expensesList: _registeredExpenses),
-          ),
+            child: ExpensesList(
+              expensesList: _registeredExpenses,
+              onRemoveExpense: _onRemoveExpense,
+            ),
+          )
         ],
       ),
     );

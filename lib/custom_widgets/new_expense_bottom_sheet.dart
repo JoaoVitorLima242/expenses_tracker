@@ -32,7 +32,7 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
     final isDataInvalid = _selectedDate == null;
     final isTitleInvalid = _titleController.text.trim().isEmpty;
 
-    if (isTitleInvalid && isAmountInvalid && isDataInvalid) {
+    if (isTitleInvalid || isAmountInvalid || isDataInvalid) {
       showDialog(
         context: context,
         builder: (context) => const ErrorDialog(),
@@ -43,7 +43,7 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
 
     widget.onAddExpense(
       Expense(
-        amount: enteredAmount!,
+        amount: enteredAmount,
         title: _titleController.text,
         date: _selectedDate!,
         category: _selectedCategory,
