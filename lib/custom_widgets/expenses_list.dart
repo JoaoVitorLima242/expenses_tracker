@@ -3,8 +3,11 @@ import 'package:expenses_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class ExpensesList extends StatelessWidget {
-  const ExpensesList(
-      {super.key, required this.expensesList, required this.onRemoveExpense});
+  const ExpensesList({
+    super.key,
+    required this.expensesList,
+    required this.onRemoveExpense,
+  });
 
   final List<Expense> expensesList;
   final void Function(Expense expense) onRemoveExpense;
@@ -18,16 +21,24 @@ class ExpensesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: expensesList.length,
-      itemBuilder: (ctx, index) => Dismissible(
-        key: ValueKey(expensesList[index].id),
-        onDismissed: (direction) =>
-            _onExpenseDismissed(direction, expensesList[index]),
-        child: ExpensesCard(
-          expense: expensesList[index],
-        ),
-      ),
+    Widget mainContent = const Center(
+      child: Text('No expenses found. Start adding some!'),
     );
+
+    if (expensesList.isNotEmpty) {
+      mainContent = ListView.builder(
+        itemCount: expensesList.length,
+        itemBuilder: (ctx, index) => Dismissible(
+          key: ValueKey(expensesList[index].id),
+          onDismissed: (direction) =>
+              _onExpenseDismissed(direction, expensesList[index]),
+          child: ExpensesCard(
+            expense: expensesList[index],
+          ),
+        ),
+      );
+    }
+
+    return mainContent;
   }
 }
