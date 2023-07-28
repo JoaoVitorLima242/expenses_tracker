@@ -13,10 +13,20 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpenseScreen extends State<ExpensesScreen> {
+  final List<Expense> _registeredExpenses = [];
+
+  void onAddExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
+  }
+
   void _openAddExpenseModal() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => const NewExpensesBottomSheet(),
+      builder: (ctx) => NewExpensesBottomSheet(
+        onAddExpense: onAddExpense,
+      ),
     );
   }
 
@@ -36,7 +46,7 @@ class _ExpenseScreen extends State<ExpensesScreen> {
         children: [
           const Text('Dash'),
           Expanded(
-            child: ExpensesList(expensesList: dummyExpenses),
+            child: ExpensesList(expensesList: _registeredExpenses),
           ),
         ],
       ),

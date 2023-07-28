@@ -3,7 +3,9 @@ import 'package:expenses_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpensesBottomSheet extends StatefulWidget {
-  const NewExpensesBottomSheet({super.key});
+  const NewExpensesBottomSheet({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpensesBottomSheet> createState() {
@@ -38,6 +40,15 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
 
       return;
     }
+
+    widget.onAddExpense(
+      Expense(
+        amount: enteredAmount!,
+        title: _titleController.text,
+        date: _selectedDate!,
+        category: _selectedCategory,
+      ),
+    );
   }
 
   void _onSelectDate() async {
