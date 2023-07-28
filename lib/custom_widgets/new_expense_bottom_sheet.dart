@@ -1,3 +1,4 @@
+import 'package:expenses_tracker/custom_widgets/error_dialog.dart';
 import 'package:expenses_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +25,19 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
   }
 
   void _onSaveExpense() {
-    print(_titleController.text);
-    print(_amountController.text);
+    final enteredAmount = double.tryParse(_amountController.text);
+    final isAmountInvalid = enteredAmount == null || enteredAmount <= 0;
+    final isDataInvalid = _selectedDate == null;
+    final isTitleInvalid = _titleController.text.trim().isEmpty;
+
+    if (isTitleInvalid && isAmountInvalid && isDataInvalid) {
+      showDialog(
+        context: context,
+        builder: (context) => const ErrorDialog(),
+      );
+
+      return;
+    }
   }
 
   void _onSelectDate() async {
@@ -110,6 +122,7 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
               ),
             )
           ]),
+          const SizedBox(height: 16),
           Row(
             children: [
               DropdownButton(
@@ -117,6 +130,7 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
                 value: _selectedCategory,
                 onChanged: _onSelectCategory,
               ),
+              const Spacer(),
               TextButton(onPressed: _onCancel, child: const Text('Cancel')),
               ElevatedButton(
                 onPressed: _onSaveExpense,
