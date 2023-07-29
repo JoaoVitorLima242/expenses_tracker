@@ -1,3 +1,4 @@
+import 'package:expenses_tracker/custom_widgets/chart/chart.dart';
 import 'package:expenses_tracker/custom_widgets/expenses_list.dart';
 import 'package:expenses_tracker/custom_widgets/new_expense_bottom_sheet.dart';
 import 'package:expenses_tracker/models/expense.dart';
@@ -73,7 +74,7 @@ class _ExpenseScreen extends State<ExpensesScreen> {
       ),
       body: Column(
         children: [
-          const Text('Dash'),
+          Chart(expenses: _registeredExpenses),
           Expanded(
             child: ExpensesList(
               expensesList: _registeredExpenses,
