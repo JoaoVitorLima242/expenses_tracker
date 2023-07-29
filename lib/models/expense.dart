@@ -33,23 +33,22 @@ class Expense {
   }
 }
 
-List<Expense> dummyExpenses = [
-  Expense(
-    amount: 19.99,
-    title: 'Flutter Course',
-    date: DateTime.now(),
-    category: Category.leisure,
-  ),
-  Expense(
-    amount: 499.99,
-    title: 'Go to Peru',
-    date: DateTime.now(),
-    category: Category.travel,
-  ),
-  Expense(
-    amount: 49.99,
-    title: 'Cripto Course',
-    date: DateTime.now(),
-    category: Category.leisure,
-  ),
-];
+class ExpenseBucket {
+  const ExpenseBucket({
+    required this.category,
+    required this.expenses,
+  });
+
+  final Category category;
+  final List<Expense> expenses;
+
+  double get totalExpenses {
+    double sum = 0;
+
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+
+    return sum;
+  }
+}
