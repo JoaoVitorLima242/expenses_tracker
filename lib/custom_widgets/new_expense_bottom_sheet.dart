@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:expenses_tracker/custom_widgets/error_dialog.dart';
 import 'package:expenses_tracker/models/expense.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NewExpensesBottomSheet extends StatefulWidget {
@@ -26,6 +29,34 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
     super.dispose();
   }
 
+  void _showDialog() {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: const Text('Invalid Input'),
+          content: const Text(
+              'Please make sure a valid title, amount, date e category was entered.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Okay'),
+            )
+          ],
+        ),
+      );
+
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) => const ErrorDialog(),
+    );
+  }
+
   void _onSaveExpense() {
     final enteredAmount = double.tryParse(_amountController.text);
     final isAmountInvalid = enteredAmount == null || enteredAmount <= 0;
@@ -33,11 +64,7 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
     final isTitleInvalid = _titleController.text.trim().isEmpty;
 
     if (isTitleInvalid || isAmountInvalid || isDataInvalid) {
-      showDialog(
-        context: context,
-        builder: (context) => const ErrorDialog(),
-      );
-
+      _showDialog();
       return;
     }
 
