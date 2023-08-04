@@ -53,6 +53,7 @@ class _ExpenseScreen extends State<ExpensesScreen> {
 
   void _openAddExpenseModal() {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpensesBottomSheet(
         onAddExpense: onAddExpense,
@@ -62,6 +63,8 @@ class _ExpenseScreen extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isScreenHorizontal = MediaQuery.of(context).size.width > 600;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Expenses Tracker'),
@@ -72,17 +75,29 @@ class _ExpenseScreen extends State<ExpensesScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Chart(expenses: _registeredExpenses),
-          Expanded(
-            child: ExpensesList(
-              expensesList: _registeredExpenses,
-              onRemoveExpense: _onRemoveExpense,
+      body: isScreenHorizontal
+          ? Row(
+              children: [
+                Expanded(child: Chart(expenses: _registeredExpenses)),
+                Expanded(
+                  child: ExpensesList(
+                    expensesList: _registeredExpenses,
+                    onRemoveExpense: _onRemoveExpense,
+                  ),
+                )
+              ],
+            )
+          : Column(
+              children: [
+                Chart(expenses: _registeredExpenses),
+                Expanded(
+                  child: ExpensesList(
+                    expensesList: _registeredExpenses,
+                    onRemoveExpense: _onRemoveExpense,
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
     );
   }
 }
