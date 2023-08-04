@@ -83,87 +83,91 @@ class _NewExpensesBottomSheet extends State<NewExpensesBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    bool isScreenHorizontal = MediaQuery.of(context).size.width > 600;
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
-    final dropdownList = Category.values
-        .map(
-          (category) => DropdownMenuItem(
-            value: category,
-            child: Text(category.name.toUpperCase()),
-          ),
-        )
-        .toList();
 
-    return SingleChildScrollView(
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.only(
-          left: isScreenHorizontal ? 40 : 20,
-          right: isScreenHorizontal ? 40 : 20,
-          top: 40,
-          bottom: keyboardSpace + 16,
-        ),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              maxLength: 50,
-              decoration: const InputDecoration(
-                label: Text('Title'),
-              ),
+    return LayoutBuilder(builder: (context, constrains) {
+      bool isScreenHorizontal = constrains.maxWidth > 600;
+
+      final dropdownList = Category.values
+          .map(
+            (category) => DropdownMenuItem(
+              value: category,
+              child: Text(category.name.toUpperCase()),
             ),
-            Row(children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    prefixText: '\$ ',
-                    label: Text('Amount'),
+          )
+          .toList();
+
+      return SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.only(
+            left: isScreenHorizontal ? 40 : 20,
+            right: isScreenHorizontal ? 40 : 20,
+            top: 40,
+            bottom: keyboardSpace + 16,
+          ),
+          child: Column(
+            children: [
+              TextField(
+                controller: _titleController,
+                maxLength: 50,
+                decoration: const InputDecoration(
+                  label: Text('Title'),
+                ),
+              ),
+              Row(children: [
+                Expanded(
+                  child: TextField(
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      prefixText: '\$ ',
+                      label: Text('Amount'),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(_selectedDate == null
-                        ? 'Select a date'
-                        : dateFormatter.format(_selectedDate!)),
-                    IconButton(
-                        onPressed: _onSelectDate,
-                        icon: const Icon(
-                          Icons.calendar_month,
-                        ))
-                  ],
-                ),
-              )
-            ]),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                DropdownButton(
-                  items: dropdownList,
-                  value: _selectedCategory,
-                  onChanged: _onSelectCategory,
-                ),
-                const Spacer(),
-                TextButton(
-                  onPressed: _onCancel,
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: _onSaveExpense,
-                  child: const Text('Save Expense'),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(_selectedDate == null
+                          ? 'Select a date'
+                          : dateFormatter.format(_selectedDate!)),
+                      IconButton(
+                          onPressed: _onSelectDate,
+                          icon: const Icon(
+                            Icons.calendar_month,
+                          ))
+                    ],
+                  ),
                 )
-              ],
-            ),
-            const SizedBox(height: 16),
-          ],
+              ]),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  DropdownButton(
+                    items: dropdownList,
+                    value: _selectedCategory,
+                    onChanged: _onSelectCategory,
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: _onCancel,
+                    child: const Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: _onSaveExpense,
+                    child: const Text('Save Expense'),
+                  )
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
